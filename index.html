@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevMap — Know Your Stack</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">🗺️ DevMap</div>
+    <div class="nav-links">
+      <div class="nav-item active" onclick="switchTab(this, 'home')">Home</div>
+      <div class="nav-item" onclick="switchTab(this, 'analyze')">Analyze</div>
+      <div class="nav-item" onclick="switchTab(this, 'myskills')">My Skills</div>
+      <div class="nav-item" onclick="switchTab(this, 'skillgap')">Skill Gap</div>
+      <div class="nav-item" onclick="switchTab(this, 'jobs')">Jobs</div>
+    </div>
+    <button class="toggle-btn" id="toggle-btn" onclick="toggleMode()">☀️ Light</button>
+  </nav>
+
+  <!-- HOME -->
+  <section id="home" class="section active">
+    <div class="home-hero">
+      <div class="home-logo">DevMap</div>
+      <p class="home-tagline">Know exactly where you stand.<br/>Find jobs that match your skills. Learn what's missing.</p>
+      <button class="cta-btn" onclick="switchTabById('analyze')">⚡ Get Started</button>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🐙</div>
+        <div class="feature-title">GitHub skill detection</div>
+        <p class="feature-desc">We scan your public repos and extract every language you've worked with.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Job description analysis</div>
+        <p class="feature-desc">Paste any job posting — we pull out the required tech skills automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Skill gap scoring</div>
+        <p class="feature-desc">See your match score and exactly which skills you need to land the role.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💼</div>
+        <div class="feature-title">Jobs & internships</div>
+        <p class="feature-desc">Real listings matched to your current skill level — including entry level roles.</p>
+      </div>
+    </div>
+    <div class="how-section">
+      <p class="how-title">How it works</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><p class="step-text"><strong>Enter your GitHub username</strong> — we fetch your public repos and detect your languages.</p></div>
+        <div class="step"><div class="step-num">2</div><p class="step-text"><strong>Paste a job description or pick skills manually</strong> — whichever is easier for you.</p></div>
+        <div class="step"><div class="step-num">3</div><p class="step-text"><strong>See your gap</strong> — your match score, missing skills, and learning resources appear instantly.</p></div>
+        <div class="step"><div class="step-num">4</div><p class="step-text"><strong>Find your job</strong> — browse real listings matched to where you are right now.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYZE -->
+  <section id="analyze" class="section">
+    <h2 class="section-title">Analyze your profile</h2>
+    <p class="section-sub">Enter your GitHub username then choose how to provide the job requirements</p>
+    <div class="input-group">
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="github-username" class="inp" placeholder="GitHub username — e.g. Officialvinn" />
+      </div>
+      <div class="method-toggle">
+        <button class="method-btn active" id="btn-paste" onclick="switchMethod('paste')">📋 Paste Job Description</button>
+        <button class="method-btn" id="btn-pick" onclick="switchMethod('pick')">🎯 Pick Skills Manually</button>
+      </div>
+      <div id="method-paste">
+        <textarea id="job-description" class="ta" rows="6" placeholder="Paste a job description here...&#10;&#10;e.g. We are looking for a developer with experience in Python, Docker, AWS and React..."></textarea>
+        <p class="hint-text">💡 Tip: Paste any part of a job posting that mentions required skills — even just "Python developer with SQL experience" works!</p>
+      </div>
+      <div id="method-pick" class="hidden">
+        <p class="picker-label">Select the skills this job requires:</p>
+        <div class="skill-picker" id="skill-picker"></div>
+      </div>
+      <button class="analyze-btn" id="analyze-btn" onclick="handleAnalyze()">⚡ Analyze My Skills</button>
+    </div>
+  </section>
+
+  <!-- MY SKILLS -->
+  <section id="myskills" class="section">
+    <h2 class="section-title">My GitHub skills</h2>
+    <p class="section-sub">Languages detected across your public repositories</p>
+    <div id="your-skills"></div>
+  </section>
+
+  <!-- SKILL GAP -->
+  <section id="skillgap" class="section">
+    <h2 class="section-title">Skill gap analysis</h2>
+    <p class="section-sub">Your skills vs what the job requires</p>
+    <div id="required-skills"></div>
+    <div id="skill-gap"></div>
+  </section>
+
+  <!-- JOBS -->
+  <section id="jobs" class="section">
+    <h2 class="section-title">Jobs & internships for you</h2>
+    <p class="section-sub">Matched to your current skill set or browse all listings</p>
+    <button class="browse-btn" onclick="browseAllJobs()">🔍 Browse All Jobs</button>
+    <div id="job-listings"></div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
