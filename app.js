@@ -36,6 +36,12 @@ const githubInput = document.getElementById('github-username')
 const jobDescInput = document.getElementById('job-description')
 const toggleBtn = document.getElementById('toggle-btn')
 
+// ===== HAMBURGER MENU =====
+function toggleMenu() {
+  const navLinks = document.getElementById('nav-links')
+  navLinks.classList.toggle('open')
+}
+
 // ===== DARK/LIGHT TOGGLE =====
 function toggleMode() {
   const body = document.body
@@ -54,6 +60,8 @@ function switchTab(el, id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
   el.classList.add('active')
   document.getElementById(id).classList.add('active')
+  // close menu on mobile after selecting
+  document.getElementById('nav-links').classList.remove('open')
 }
 
 function switchTabById(id) {
@@ -62,6 +70,7 @@ function switchTabById(id) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
   document.getElementById(id).classList.add('active')
   document.querySelectorAll('.nav-item')[ids.indexOf(id)].classList.add('active')
+  document.getElementById('nav-links').classList.remove('open')
 }
 
 // ===== METHOD TOGGLE =====
@@ -163,7 +172,7 @@ async function fetchJobs(skills) {
     : data.jobs.slice(0, 5)
 }
 
-// ===== BROWSE ALL JOBS (Remotive API) =====
+// ===== BROWSE ALL JOBS =====
 async function browseAllJobs() {
   const browseBtn = document.querySelector('.browse-btn')
   browseBtn.textContent = '⏳ Loading jobs...'

@@ -11,14 +11,15 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-brand">🗺️ DevMap</div>
-    <div class="nav-links">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+    <div class="nav-links" id="nav-links">
       <div class="nav-item active" onclick="switchTab(this, 'home')">Home</div>
       <div class="nav-item" onclick="switchTab(this, 'analyze')">Analyze</div>
       <div class="nav-item" onclick="switchTab(this, 'myskills')">My Skills</div>
       <div class="nav-item" onclick="switchTab(this, 'skillgap')">Skill Gap</div>
       <div class="nav-item" onclick="switchTab(this, 'jobs')">Jobs</div>
+      <button class="toggle-btn" id="toggle-btn" onclick="toggleMode()">☀️ Light</button>
     </div>
-    <button class="toggle-btn" id="toggle-btn" onclick="toggleMode()">☀️ Light</button>
   </nav>
 
   <!-- HOME -->
