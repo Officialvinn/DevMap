@@ -442,12 +442,11 @@ body.light .error-msg { background: #ffd7d5; color: #cf222e; border: 1px solid #
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
 
-  /* Navbar */
   .navbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 0.75rem 1rem;
-    position: relative;
+    flex-wrap: nowrap;
+    height: 52px;
+    padding: 0 1rem;
+    position: sticky;
   }
 
   .hamburger {
@@ -457,11 +456,19 @@ body.light .error-msg { background: #ffd7d5; color: #cf222e; border: 1px solid #
   .nav-links {
     display: none;
     flex-direction: column;
-    width: 100%;
-    margin-left: 0;
+    position: absolute;
+    top: 52px;
+    left: 0;
+    right: 0;
+    z-index: 999;
     padding: 0.5rem 0;
-    gap: 0;
+    margin-left: 0;
+    border-bottom: 1px solid;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
+
+  body.dark .nav-links { background: #161b22; border-color: #21262d; }
+  body.light .nav-links { background: #ffffff; border-color: #d1d9e0; }
 
   .nav-links.open {
     display: flex;
@@ -469,30 +476,39 @@ body.light .error-msg { background: #ffd7d5; color: #cf222e; border: 1px solid #
 
   .nav-item {
     height: 44px;
-    padding: 0 0.5rem;
+    padding: 0 1.2rem;
     width: 100%;
     border-bottom: none;
-    border-left: 2px solid transparent;
+    border-left: 3px solid transparent;
     font-size: 14px;
   }
 
-  body.dark .nav-item.active { border-left: 2px solid #58a6ff; border-bottom: none; color: #58a6ff; }
-  body.light .nav-item.active { border-left: 2px solid #0969da; border-bottom: none; color: #0969da; }
+  body.dark .nav-item.active {
+    border-left: 3px solid #58a6ff;
+    border-bottom: none;
+    color: #58a6ff;
+    background: #58a6ff08;
+  }
+
+  body.light .nav-item.active {
+    border-left: 3px solid #0969da;
+    border-bottom: none;
+    color: #0969da;
+    background: #0969da08;
+  }
 
   .toggle-btn {
     margin-left: 0;
-    margin-top: 0.5rem;
-    width: 100%;
+    margin: 0.5rem 1rem;
+    width: calc(100% - 2rem);
     padding: 0.5rem;
     text-align: center;
   }
 
-  /* Sections */
   .section {
     padding: 1rem;
   }
 
-  /* Home */
   .home-logo { font-size: 2rem; }
   .home-tagline { font-size: 13px; }
 
@@ -500,12 +516,10 @@ body.light .error-msg { background: #ffd7d5; color: #cf222e; border: 1px solid #
     grid-template-columns: 1fr;
   }
 
-  /* Method toggle */
   .method-toggle {
     flex-direction: column;
   }
 
-  /* Job cards */
   .job-card {
     flex-direction: column;
     align-items: flex-start;
