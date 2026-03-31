@@ -30,28 +30,30 @@ const learningResources = {
   'go': 'https://go.dev/learn',
 }
 
+// ===== INIT BODY CLASS =====
+document.body.classList.add('light')
+
 // ===== GRAB ELEMENTS =====
 const analyzeBtn = document.getElementById('analyze-btn')
 const githubInput = document.getElementById('github-username')
 const jobDescInput = document.getElementById('job-description')
 const toggleBtn = document.getElementById('toggle-btn')
 
-// ===== HAMBURGER MENU =====
-function toggleMenu() {
-  const navLinks = document.getElementById('nav-links')
-  navLinks.classList.toggle('open')
-}
-
 // ===== DARK/LIGHT TOGGLE =====
 function toggleMode() {
   const body = document.body
-  if (body.classList.contains('dark')) {
-    body.classList.replace('dark', 'light')
-    toggleBtn.textContent = '🌙 Dark'
-  } else {
+  if (body.classList.contains('light')) {
     body.classList.replace('light', 'dark')
     toggleBtn.textContent = '☀️ Light'
+  } else {
+    body.classList.replace('dark', 'light')
+    toggleBtn.textContent = '🌙 Dark'
   }
+}
+
+// ===== HAMBURGER =====
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open')
 }
 
 // ===== NAV TAB SWITCHING =====
@@ -60,7 +62,6 @@ function switchTab(el, id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
   el.classList.add('active')
   document.getElementById(id).classList.add('active')
-  // close menu on mobile after selecting
   document.getElementById('nav-links').classList.remove('open')
 }
 
@@ -97,14 +98,11 @@ function switchMethod(method) {
 function buildSkillPicker() {
   const picker = document.getElementById('skill-picker')
   picker.innerHTML = ''
-
   knownSkills.forEach(skill => {
     const label = document.createElement('label')
     label.className = 'skill-checkbox'
     label.innerHTML = `<input type="checkbox" value="${skill}" />${skill}`
-    label.addEventListener('click', () => {
-      label.classList.toggle('selected')
-    })
+    label.addEventListener('click', () => label.classList.toggle('selected'))
     picker.appendChild(label)
   })
 }
@@ -122,86 +120,62 @@ async function fetchGitHubLanguages(username) {
   const response = await fetch(
     `https://api.github.com/users/${username}/repos?per_page=100`
   )
-
-  if (!response.ok) {
-    throw new Error('GitHub user not found. Please check the username.')
-  }
-
+  if (!response.ok) throw new Error('GitHub user not found. Please check the username.')
   const repos = await response.json()
   const languageCount = {}
-
   repos.forEach(repo => {
     if (repo.language) {
       languageCount[repo.language] = (languageCount[repo.language] || 0) + 1
     }
   })
-
-  if (Object.keys(languageCount).length === 0) {
-    throw new Error('No public repos with languages found for this user.')
-  }
-
+  if (Object.keys(languageCount).length === 0) throw new Error('No public repos with languages found.')
   return languageCount
 }
 
-// ===== EXTRACT SKILLS FROM JOB DESCRIPTION =====
+// ===== EXTRACT SKILLS =====
 function extractRequiredSkills(jobDesc) {
   const lowerDesc = jobDesc.toLowerCase()
   return knownSkills.filter(skill => lowerDesc.includes(skill))
 }
 
-// ===== FETCH JOBS (Remotive API) =====
+// ===== FETCH JOBS =====
 async function fetchJobs(skills) {
   const response = await fetch(
     `https://remotive.com/api/remote-jobs?category=software-dev&limit=20`
   )
-
-  if (!response.ok) {
-    throw new Error('Could not fetch job listings. Please try again.')
-  }
-
+  if (!response.ok) throw new Error('Could not fetch job listings. Please try again.')
   const data = await response.json()
-
   const filteredJobs = data.jobs.filter(job => {
     const title = job.title.toLowerCase()
     const tags = job.tags ? job.tags.join(' ').toLowerCase() : ''
     return skills.some(skill => title.includes(skill) || tags.includes(skill))
   })
-
-  return filteredJobs.length > 0
-    ? filteredJobs.slice(0, 5)
-    : data.jobs.slice(0, 5)
+  return filteredJobs.length > 0 ? filteredJobs.slice(0, 5) : data.jobs.slice(0, 5)
 }
 
 // ===== BROWSE ALL JOBS =====
 async function browseAllJobs() {
   const browseBtn = document.querySelector('.browse-btn')
-  browseBtn.textContent = '⏳ Loading jobs...'
+  browseBtn.textContent = 'Loading jobs...'
   browseBtn.disabled = true
 
   try {
     const response = await fetch(
       `https://remotive.com/api/remote-jobs?category=software-dev&limit=10`
     )
-
-    if (!response.ok) {
-      throw new Error('Could not fetch job listings. Please try again.')
-    }
-
+    if (!response.ok) throw new Error('Could not fetch job listings. Please try again.')
     const data = await response.json()
 
     document.getElementById('job-listings').innerHTML = `
-      <div class="card">
-        <div class="card-head">
-          <div class="card-icon icon-green">💼</div>
-          <h2>All software dev listings</h2>
-        </div>
+      <div class="glass-card">
+        <div class="card-head"><div class="card-label">All software dev listings</div></div>
         ${data.jobs.slice(0, 10).map(job => `
           <div class="job-card">
             <div class="job-info">
               <h3>${job.title}</h3>
               <p>${job.company_name} · ${job.candidate_required_location}</p>
             </div>
-            <a class="view-btn" href="${job.url}" target="_blank">View Job →</a>
+            <a class="view-btn" href="${job.url}" target="_blank">View →</a>
           </div>
         `).join('')}
       </div>
@@ -209,7 +183,7 @@ async function browseAllJobs() {
   } catch (error) {
     alert(`Something went wrong: ${error.message}`)
   } finally {
-    browseBtn.textContent = '🔍 Browse All Jobs'
+    browseBtn.textContent = 'Browse all jobs'
     browseBtn.disabled = false
   }
 }
@@ -223,55 +197,49 @@ function displayResults(languageCount, requiredSkills, jobs) {
     ? Math.round((matchedSkills.length / requiredSkills.length) * 100)
     : 0
 
-  // MY SKILLS TAB
+  // MY SKILLS
   document.getElementById('your-skills').innerHTML = `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-icon icon-blue">🧑‍💻</div>
-        <h2>Languages across your repos</h2>
-      </div>
+    <div class="glass-card">
+      <div class="card-head"><div class="card-label">GitHub languages</div></div>
       ${Object.entries(languageCount).map(([lang, count]) => `
-        <span class="tag have">${lang} (${count} repos)</span>
+        <span class="glass-pill have">${lang} (${count} repos)</span>
       `).join('')}
     </div>
   `
 
-  // REQUIRED SKILLS CARD
+  // REQUIRED SKILLS
   document.getElementById('required-skills').innerHTML = `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-icon icon-blue">📋</div>
-        <h2>Required vs your skills</h2>
-      </div>
-      <div class="match-score">
+    <div class="glass-card-dark">
+      <div class="score-wrap">
         <div class="score-num">${matchPercent}%</div>
-        <div class="score-label">
-          <strong>Match Score</strong>
-          ${matchedSkills.length} of ${requiredSkills.length} required skills matched
+        <div>
+          <span class="score-strong">Match Score</span>
+          <span class="score-label">${matchedSkills.length} of ${requiredSkills.length} required skills matched</span>
+          <div class="progress-bg"><div class="progress-fill" style="width:${matchPercent}%"></div></div>
         </div>
       </div>
+    </div>
+    <div class="glass-card">
+      <div class="card-head"><div class="card-label">Required vs your skills</div></div>
       ${requiredSkills.length > 0
         ? requiredSkills.map(skill => `
-            <span class="tag ${matchedSkills.includes(skill) ? 'have' : 'missing'}">
-              ${skill} ${matchedSkills.includes(skill) ? '✅' : '❌'}
+            <span class="glass-pill ${matchedSkills.includes(skill) ? 'have' : 'missing'}">
+              ${skill} ${matchedSkills.includes(skill) ? '✓' : '✗'}
             </span>
           `).join('')
-        : '<p class="section-sub">No recognizable skills found. Try the manual skill picker.</p>'
+        : '<p class="hint-text">No recognizable skills found. Try the skill picker.</p>'
       }
     </div>
   `
 
-  // SKILL GAP CARD
+  // SKILL GAP
   document.getElementById('skill-gap').innerHTML = `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-icon icon-red">🎯</div>
-        <h2>Skills to learn</h2>
-      </div>
+    <div class="glass-card">
+      <div class="card-head"><div class="card-label">Skills to learn</div></div>
       ${missingSkills.length === 0
-        ? '<p style="color:#3fb950">🎉 You have all the required skills!</p>'
+        ? '<p style="color:#006630;font-weight:600;">You have all the required skills!</p>'
         : missingSkills.map(skill => `
-            <span class="tag missing">${skill} ❌
+            <span class="glass-pill missing">${skill} ✗
               ${learningResources[skill]
                 ? `<a class="learn-btn" href="${learningResources[skill]}" target="_blank">Learn →</a>`
                 : ''
@@ -279,24 +247,13 @@ function displayResults(languageCount, requiredSkills, jobs) {
             </span>
           `).join('')
       }
-      <div style="margin-top:0.8rem;">
-        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
-          <span>Overall readiness</span><span>${matchPercent}%</span>
-        </div>
-        <div class="progress-bg">
-          <div class="progress-fill" style="width:${matchPercent}%"></div>
-        </div>
-      </div>
     </div>
   `
 
-  // JOBS CARD
+  // JOBS
   document.getElementById('job-listings').innerHTML = `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-icon icon-green">💼</div>
-        <h2>Matched listings</h2>
-      </div>
+    <div class="glass-card">
+      <div class="card-head"><div class="card-label">Matched listings</div></div>
       ${jobs.length > 0
         ? jobs.map(job => `
             <div class="job-card">
@@ -304,20 +261,19 @@ function displayResults(languageCount, requiredSkills, jobs) {
                 <h3>${job.title}</h3>
                 <p>${job.company_name} · ${job.candidate_required_location}</p>
               </div>
-              <a class="view-btn" href="${job.url}" target="_blank">View Job →</a>
+              <a class="view-btn" href="${job.url}" target="_blank">View →</a>
             </div>
           `).join('')
-        : '<p class="section-sub">No matching jobs found. Try Browse All Jobs.</p>'
+        : '<p class="hint-text">No matching jobs found. Try Browse all jobs.</p>'
       }
     </div>
   `
 }
 
-// ===== MAIN ANALYZE FUNCTION =====
+// ===== MAIN ANALYZE =====
 async function handleAnalyze() {
   const username = githubInput.value.trim()
   const isPaste = !document.getElementById('method-paste').classList.contains('hidden')
-
   let requiredSkills = []
 
   if (isPaste) {
@@ -335,7 +291,7 @@ async function handleAnalyze() {
     }
   }
 
-  analyzeBtn.textContent = '⏳ Analyzing...'
+  analyzeBtn.textContent = 'Analyzing...'
   analyzeBtn.disabled = true
 
   try {
@@ -346,7 +302,7 @@ async function handleAnalyze() {
   } catch (error) {
     alert(`Something went wrong: ${error.message}`)
   } finally {
-    analyzeBtn.textContent = '⚡ Analyze My Skills'
+    analyzeBtn.textContent = 'Analyze my skills'
     analyzeBtn.disabled = false
   }
 }

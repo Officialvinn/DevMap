@@ -6,97 +6,116 @@
   <title>DevMap — Know Your Stack</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="dark">
+<body>
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="nav-brand">🗺️ DevMap</div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+    <div class="nav-brand">DevMap</div>
     <div class="nav-links" id="nav-links">
       <div class="nav-item active" onclick="switchTab(this, 'home')">Home</div>
       <div class="nav-item" onclick="switchTab(this, 'analyze')">Analyze</div>
       <div class="nav-item" onclick="switchTab(this, 'myskills')">My Skills</div>
       <div class="nav-item" onclick="switchTab(this, 'skillgap')">Skill Gap</div>
       <div class="nav-item" onclick="switchTab(this, 'jobs')">Jobs</div>
-      <button class="toggle-btn" id="toggle-btn" onclick="toggleMode()">☀️ Light</button>
+      <button class="toggle-btn" id="toggle-btn" onclick="toggleMode()">🌙 Dark</button>
     </div>
+    <button class="nav-cta" onclick="switchTabById('analyze')">Get Started</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
   </nav>
+
+  <!-- BLOBS -->
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
 
   <!-- HOME -->
   <section id="home" class="section active">
     <div class="home-hero">
-      <div class="home-logo">DevMap</div>
-      <p class="home-tagline">Know exactly where you stand.<br/>Find jobs that match your skills. Learn what's missing.</p>
-      <button class="cta-btn" onclick="switchTabById('analyze')">⚡ Get Started</button>
+      <div class="hero-eyebrow">Developer Career Tool</div>
+      <div class="home-headline">Know your stack.<br/>Land your role.</div>
+      <div class="home-tagline">Find jobs that match your skills. Discover exactly what's missing. Learn and grow faster.</div>
+      <div class="cta-row">
+        <button class="glass-btn-dark" onclick="switchTabById('analyze')">Analyze my profile</button>
+        <button class="cta-link" onclick="switchTabById('jobs')">Browse jobs →</button>
+      </div>
     </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">2</div><div class="stat-label">APIs integrated</div></div>
+      <div class="stat"><div class="stat-num">35+</div><div class="stat-label">Skills tracked</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free to use</div></div>
+      <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Analyses run</div></div>
+    </div>
+
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">🐙</div>
+        <div class="fi-num">01</div>
         <div class="feature-title">GitHub skill detection</div>
-        <p class="feature-desc">We scan your public repos and extract every language you've worked with.</p>
+        <p class="feature-desc">We scan your public repos and extract every language you've worked with across all projects.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📋</div>
+        <div class="fi-num">02</div>
         <div class="feature-title">Job description analysis</div>
-        <p class="feature-desc">Paste any job posting — we pull out the required tech skills automatically.</p>
+        <p class="feature-desc">Paste any job posting — we automatically pull out the required tech skills from the text.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🎯</div>
+        <div class="fi-num">03</div>
         <div class="feature-title">Skill gap scoring</div>
-        <p class="feature-desc">See your match score and exactly which skills you need to land the role.</p>
+        <p class="feature-desc">See your match score and exactly which skills you need to land the role you want.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">💼</div>
+        <div class="fi-num">04</div>
         <div class="feature-title">Jobs & internships</div>
-        <p class="feature-desc">Real listings matched to your current skill level — including entry level roles.</p>
+        <p class="feature-desc">Real listings matched to your current skill level — entry level and internships included.</p>
       </div>
     </div>
+
     <div class="how-section">
       <p class="how-title">How it works</p>
       <div class="steps">
-        <div class="step"><div class="step-num">1</div><p class="step-text"><strong>Enter your GitHub username</strong> — we fetch your public repos and detect your languages.</p></div>
-        <div class="step"><div class="step-num">2</div><p class="step-text"><strong>Paste a job description or pick skills manually</strong> — whichever is easier for you.</p></div>
-        <div class="step"><div class="step-num">3</div><p class="step-text"><strong>See your gap</strong> — your match score, missing skills, and learning resources appear instantly.</p></div>
-        <div class="step"><div class="step-num">4</div><p class="step-text"><strong>Find your job</strong> — browse real listings matched to where you are right now.</p></div>
+        <div class="step"><div class="step-num">01</div><p class="step-text"><strong>Enter GitHub username</strong>We fetch your repos and detect your languages instantly.</p></div>
+        <div class="step"><div class="step-num">02</div><p class="step-text"><strong>Paste job description</strong>Or pick skills manually from our curated list.</p></div>
+        <div class="step"><div class="step-num">03</div><p class="step-text"><strong>See your gap</strong>Match score, missing skills, and learning resources.</p></div>
+        <div class="step"><div class="step-num">04</div><p class="step-text"><strong>Find your job</strong>Browse real listings matched to where you are right now.</p></div>
       </div>
     </div>
   </section>
 
   <!-- ANALYZE -->
   <section id="analyze" class="section">
-    <h2 class="section-title">Analyze your profile</h2>
+    <h2 class="section-title">Analyze</h2>
     <p class="section-sub">Enter your GitHub username then choose how to provide the job requirements</p>
     <div class="input-group">
       <div class="input-wrap">
-        <span class="input-icon">👤</span>
-        <input type="text" id="github-username" class="inp" placeholder="GitHub username — e.g. Officialvinn" />
+        <svg class="input-svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input type="text" id="github-username" class="glass-input" placeholder="GitHub username — e.g. Officialvinn" />
       </div>
       <div class="method-toggle">
-        <button class="method-btn active" id="btn-paste" onclick="switchMethod('paste')">📋 Paste Job Description</button>
-        <button class="method-btn" id="btn-pick" onclick="switchMethod('pick')">🎯 Pick Skills Manually</button>
+        <button class="method-btn active" id="btn-paste" onclick="switchMethod('paste')">Paste description</button>
+        <button class="method-btn" id="btn-pick" onclick="switchMethod('pick')">Pick skills</button>
       </div>
       <div id="method-paste">
-        <textarea id="job-description" class="ta" rows="6" placeholder="Paste a job description here...&#10;&#10;e.g. We are looking for a developer with experience in Python, Docker, AWS and React..."></textarea>
-        <p class="hint-text">💡 Tip: Paste any part of a job posting that mentions required skills — even just "Python developer with SQL experience" works!</p>
+        <textarea id="job-description" class="glass-ta" rows="6" placeholder="Paste a job description here...&#10;&#10;e.g. We are looking for a developer with experience in Python, Docker, AWS and React..."></textarea>
+        <p class="hint-text">Tip: Even just "Python developer with SQL experience" works.</p>
       </div>
       <div id="method-pick" class="hidden">
         <p class="picker-label">Select the skills this job requires:</p>
         <div class="skill-picker" id="skill-picker"></div>
       </div>
-      <button class="analyze-btn" id="analyze-btn" onclick="handleAnalyze()">⚡ Analyze My Skills</button>
+      <button class="glass-analyze-btn" id="analyze-btn" onclick="handleAnalyze()">Analyze my skills</button>
     </div>
   </section>
 
   <!-- MY SKILLS -->
   <section id="myskills" class="section">
-    <h2 class="section-title">My GitHub skills</h2>
+    <h2 class="section-title">My Skills</h2>
     <p class="section-sub">Languages detected across your public repositories</p>
     <div id="your-skills"></div>
   </section>
 
   <!-- SKILL GAP -->
   <section id="skillgap" class="section">
-    <h2 class="section-title">Skill gap analysis</h2>
+    <h2 class="section-title">Skill Gap</h2>
     <p class="section-sub">Your skills vs what the job requires</p>
     <div id="required-skills"></div>
     <div id="skill-gap"></div>
@@ -104,9 +123,9 @@
 
   <!-- JOBS -->
   <section id="jobs" class="section">
-    <h2 class="section-title">Jobs & internships for you</h2>
+    <h2 class="section-title">Jobs</h2>
     <p class="section-sub">Matched to your current skill set or browse all listings</p>
-    <button class="browse-btn" onclick="browseAllJobs()">🔍 Browse All Jobs</button>
+    <button class="browse-btn" onclick="browseAllJobs()">Browse all jobs</button>
     <div id="job-listings"></div>
   </section>
 
