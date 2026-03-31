@@ -30,7 +30,7 @@ const learningResources = {
   'go': 'https://go.dev/learn',
 }
 
-// ===== INIT BODY CLASS =====
+// ===== INIT =====
 document.body.classList.add('light')
 
 // ===== GRAB ELEMENTS =====
@@ -94,25 +94,30 @@ function switchMethod(method) {
   }
 }
 
-// ===== BUILD SKILL PICKER =====
+// ===== BUILD SKILL PICKER — FIXED =====
 function buildSkillPicker() {
   const picker = document.getElementById('skill-picker')
   picker.innerHTML = ''
+
   knownSkills.forEach(skill => {
-    const label = document.createElement('label')
-    label.className = 'skill-checkbox'
-    label.innerHTML = `<input type="checkbox" value="${skill}" />${skill}`
-    label.addEventListener('click', () => label.classList.toggle('selected'))
-    picker.appendChild(label)
+    const btn = document.createElement('button')
+    btn.className = 'skill-checkbox'
+    btn.textContent = skill
+    btn.type = 'button'
+    btn.dataset.skill = skill
+    btn.addEventListener('click', function() {
+      this.classList.toggle('selected')
+    })
+    picker.appendChild(btn)
   })
 }
 
 buildSkillPicker()
 
-// ===== GET PICKED SKILLS =====
+// ===== GET PICKED SKILLS — FIXED =====
 function getPickedSkills() {
-  const checked = document.querySelectorAll('.skill-checkbox.selected input')
-  return Array.from(checked).map(input => input.value)
+  const selected = document.querySelectorAll('.skill-checkbox.selected')
+  return Array.from(selected).map(btn => btn.dataset.skill)
 }
 
 // ===== GITHUB API =====
@@ -201,9 +206,11 @@ function displayResults(languageCount, requiredSkills, jobs) {
   document.getElementById('your-skills').innerHTML = `
     <div class="glass-card">
       <div class="card-head"><div class="card-label">GitHub languages</div></div>
-      ${Object.entries(languageCount).map(([lang, count]) => `
-        <span class="glass-pill have">${lang} (${count} repos)</span>
-      `).join('')}
+      <div style="position:relative;z-index:2;">
+        ${Object.entries(languageCount).map(([lang, count]) => `
+          <span class="glass-pill have">${lang} (${count} repos)</span>
+        `).join('')}
+      </div>
     </div>
   `
 
@@ -221,14 +228,16 @@ function displayResults(languageCount, requiredSkills, jobs) {
     </div>
     <div class="glass-card">
       <div class="card-head"><div class="card-label">Required vs your skills</div></div>
-      ${requiredSkills.length > 0
-        ? requiredSkills.map(skill => `
-            <span class="glass-pill ${matchedSkills.includes(skill) ? 'have' : 'missing'}">
-              ${skill} ${matchedSkills.includes(skill) ? '✓' : '✗'}
-            </span>
-          `).join('')
-        : '<p class="hint-text">No recognizable skills found. Try the skill picker.</p>'
-      }
+      <div style="position:relative;z-index:2;">
+        ${requiredSkills.length > 0
+          ? requiredSkills.map(skill => `
+              <span class="glass-pill ${matchedSkills.includes(skill) ? 'have' : 'missing'}">
+                ${skill} ${matchedSkills.includes(skill) ? '✓' : '✗'}
+              </span>
+            `).join('')
+          : '<p class="hint-text">No recognizable skills found. Try the skill picker.</p>'
+        }
+      </div>
     </div>
   `
 
@@ -236,17 +245,19 @@ function displayResults(languageCount, requiredSkills, jobs) {
   document.getElementById('skill-gap').innerHTML = `
     <div class="glass-card">
       <div class="card-head"><div class="card-label">Skills to learn</div></div>
-      ${missingSkills.length === 0
-        ? '<p style="color:#006630;font-weight:600;">You have all the required skills!</p>'
-        : missingSkills.map(skill => `
-            <span class="glass-pill missing">${skill} ✗
-              ${learningResources[skill]
-                ? `<a class="learn-btn" href="${learningResources[skill]}" target="_blank">Learn →</a>`
-                : ''
-              }
-            </span>
-          `).join('')
-      }
+      <div style="position:relative;z-index:2;">
+        ${missingSkills.length === 0
+          ? '<p style="color:#006630;font-weight:600;">You have all the required skills!</p>'
+          : missingSkills.map(skill => `
+              <span class="glass-pill missing">${skill} ✗
+                ${learningResources[skill]
+                  ? `<a class="learn-btn" href="${learningResources[skill]}" target="_blank">Learn →</a>`
+                  : ''
+                }
+              </span>
+            `).join('')
+        }
+      </div>
     </div>
   `
 
