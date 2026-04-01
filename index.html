@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Primary SEO -->
   <title>DevMap</title>
+  <meta name="description" content="DevMap analyzes your GitHub profile against job descriptions, shows your skill gap, and finds real jobs and internships matched to your current skill level." />
+  <meta name="keywords" content="developer jobs, skill gap analyzer, GitHub skills, software engineering internships, developer career tool" />
+  <meta name="author" content="Alvin Njenga" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DevMap — Know Your Stack" />
+  <meta property="og:description" content="Analyze your GitHub profile, find your skill gap, and discover jobs matched to your skills." />
+  <meta property="og:url" content="https://devmap.alvinn.tech" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="DevMap — Know Your Stack" />
+  <meta name="twitter:description" content="Analyze your GitHub profile, find your skill gap, and discover jobs matched to your skills." />
+
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a1a2e'/><text x='50' y='72' font-size='60' font-weight='900' font-family='Segoe UI' text-anchor='middle' fill='white'>D</text></svg>" />
 </head>
@@ -143,3 +160,10 @@
   <script src="app.js"></script>
 </body>
 </html>
+```
+
+Now create `robots.txt` in your `devmap` folder:
+```
+User-agent: *
+Allow: /
+Sitemap: https://devmap.alvinn.tech/sitemap.xml
